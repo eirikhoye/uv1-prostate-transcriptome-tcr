@@ -1,0 +1,9 @@
+name: clustcr_env
+channels:
+  - svalkiers
+  - bioconda
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - clustcr

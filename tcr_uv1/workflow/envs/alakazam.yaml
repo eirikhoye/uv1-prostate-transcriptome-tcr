@@ -1,0 +1,7 @@
+name: hill_diversity_env
+channels:
+  - conda-forge
+dependencies:
+  - r-alakazam
+  - r-readr
+  - r-dplyr
