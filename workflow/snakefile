@@ -1,0 +1,53 @@
+import os
+import csv
+import pandas
+import re
+
+
+MERGED_COUNTS = "/storage/mathelierarea/processed/eirikhoy/tcr_uv1/data/merged_counts.csv"
+CLUSTERS = "/storage/mathelierarea/processed/eirikhoy/tcr_uv1/results/TCR_clusters.csv"
+MOTIFS = "/storage/mathelierarea/processed/eirikhoy/tcr_uv1/results/TCR_motifs.csv"
+CONDA_ENV = "/storage/mathelierarea/processed/eirikhoy/tcr_uv1/workflow/envs/clustcr.yaml"
+CDR3_COLUMN = "CDR3.Amino.Acids"
+CLUSTCR_SCRIPT_PATH = "/storage/mathelierarea/processed/eirikhoy/tcr_uv1/workflow/scripts/clustr_tcrs.py"
+MOTIF_COUNTS = "/storage/mathelierarea/processed/eirikhoy/tcr_uv1/results/motif_counts.csv"
+
+MOTIF_COUNTS = "/storage/mathelierarea/processed/eirikhoy/tcr_uv1/results/motif_counts.csv"
+SPLIT_MOTIFS = "/storage/mathelierarea/processed/eirikhoy/tcr_uv1/data/UV1_MOTIF_one_file_format/{sample}.csv"
+SPLIT_MOTIFS_DIR = "/storage/mathelierarea/processed/eirikhoy/tcr_uv1/data/UV1_MOTIF_one_file_format/"
+
+dir_path = "/storage/mathelierarea/processed/eirikhoy/tcr_uv1/data/UV1_TCR_one_file_format"
+files = os.listdir(dir_path)
+
+SAMPLE_NAMES = []
+for f in files:
+    # Extract Pat### part
+    pat_match = re.search(r"(Pat\d+)", f)
+    pat = pat_match.group(1) if pat_match else "Unknown"
+
+    # Extract the suffix after the last underscore before .csv
+    suffix_match = re.search(r"_(\-?\d+_[A-Za-z]+)\.csv$", f)
+    suffix = suffix_match.group(1) if suffix_match else ""
+
+    SAMPLE_NAMES.append(f"{suffix}_patient_{pat}")
+
+MOTIF_HILL_PROFILES = "/storage/mathelierarea/processed/eirikhoy/tcr_uv1/results/motif_hill_profiles/{sample}.csv"
+ALAKAZAM_ENV = "/storage/mathelierarea/processed/eirikhoy/tcr_uv1/workflow/envs/alakazam.yaml"
+MERGED_MOTIF_HILL = "/storage/mathelierarea/processed/eirikhoy/tcr_uv1/results/motif_hill_profiles_all.tsv"
+
+
+
+
+
+rule all:
+    input:
+        expand(SPLIT_MOTIFS, sample=SAMPLE_NAMES),
+        expand(MOTIF_HILL_PROFILES, sample=SAMPLE_NAMES),
+        MERGED_MOTIF_HILL
+
+
+include: "rules/cluster_tcrs.smk"
+include: "rules/run_hill.smk"
+include: "rules/clonexp_test.smk"
+#include: "rules/run_deseq2.smk"
+

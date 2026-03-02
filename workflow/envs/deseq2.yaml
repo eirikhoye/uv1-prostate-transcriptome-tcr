@@ -1,0 +1,8 @@
+name: deseq2
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bioconductor-deseq2
+  - r-pheatmap
+  - r-viridis
