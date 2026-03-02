@@ -1,5 +1,3 @@
-uv1-prostate-transcriptome-tcr
-
 Analysis code for whole-transcriptome and TCR repertoire profiling in prostate cancer, evaluating immune signatures, T-cell exhaustion, and repertoire features associated with response to UV1 hTERT vaccination and long-term clinical outcomes.
 
 Manuscript
@@ -15,20 +13,3 @@ We examined immune and molecular determinants of clinical benefit following UV1 
 
 These findings indicate that baseline intratumoral T cell exhaustion and repertoire composition shape responsiveness to hTERT vaccination and long-term outcome. Overall, our study highlights how baseline immune profiling may serve as a companion biomarker to identify mCSPC patients most likely to benefit from therapeutic vaccination.
 
-Repository Overview
-
-This repository contains code and analyses supporting the findings of the manuscript, including:
-
-Transcriptome analysis (RNA-seq) from diagnostic and post-vaccine prostate cancer biopsies
-
-TCR repertoire profiling from circulating and tissue-resident T cells
-
-Integration of immune signature, T cell exhaustion, and repertoire features with clinical outcomes
-
-Generation of figures and supplementary analyses for the manuscript
-
-Citation
-
-If you use this code or data in your research, please cite:
-
-T cell transcriptional and receptor signatures predict response to telomerase vaccination in prostate cancer (manuscript under review, 2026).
