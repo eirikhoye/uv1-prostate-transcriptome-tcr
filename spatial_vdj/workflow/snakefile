@@ -1,0 +1,54 @@
+import glob, os
+
+# Load configuration
+# -----------------------------------------------------
+configfile: "config/config.yaml"
+
+# Global Variables
+# -----------------------------------------------------
+ENABLED_MODULES = config['enabled_modules']
+
+# General Paths
+PATH_BAMFILES     = config['bamfiles']
+PATH_FASTQFILES   = config['fastqfiles']
+PATH_FASTAFILES   = config['fastafiles']
+MIXCR_RES_PATH    = config['mixcr_res']
+MIXCR_ASSEM_PATH  = config['mixcr_assemble']
+MIXCR_CLONES_PATH = config['mixcr_clones']
+ALIGNMENT_PATH    = config['alignment_files']
+SPATIAL_COUNTS    = config['spatial_files']
+FIGURE_PATH       = config['figure_path']
+
+# Define Files
+SAMPLES         = [os.path.basename(f).replace(".bam", "")
+                   for f in glob.glob(os.path.join(PATH_BAMFILES, "*.bam"))]
+BAM_FILES       = os.path.join(PATH_BAMFILES, "{sample}.bam")
+FASTQ_FILES     = os.path.join(PATH_FASTQFILES, "{sample}.fastq")
+VDJCA_FILES     = os.path.join(MIXCR_RES_PATH, "{sample}._IGH.vdjca")
+REPORT_FILES    = os.path.join(MIXCR_RES_PATH, "{sample}._IGH-align.report")
+ASSEMBLE_FILES  = os.path.join(MIXCR_ASSEM_PATH, "{sample}_IGH.clna")
+ASSEMBLE_REPORT = os.path.join(MIXCR_ASSEM_PATH, "{sample}_IGH-assemble.report")
+CLONE_FILES     = os.path.join(MIXCR_CLONES_PATH, "{sample}_IGH.txt")
+ALIGNMENT_FILES = os.path.join(ALIGNMENT_PATH, "{sample}_IGH-alignments.txt")
+SPATIAL_FILES   = os.path.join(SPATIAL_COUNTS, "{sample}_spatial_conts.txt")
+TB_CELL_PLOT    = os.path.join(FIGURE_PATH, "{sample}_TB_cell_spatial.png")
+
+# Environments
+WORKFLOW_ENV = config['workflow_env']
+
+
+# load rules
+# -----------------------------------------------------
+# Load common functions defined in common.smk
+include: "rules/common.smk"
+
+# Load all modules listed under `enabled_modules` in the config file
+for module in ENABLED_MODULES:
+    include: f"rules/{module}.smk"
+
+
+# Define files that must be created
+# -----------------------------------------------------
+rule all:
+    input:
+        get_final_output(ENABLED_MODULES)
