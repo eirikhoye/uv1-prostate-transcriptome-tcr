@@ -1,0 +1,11 @@
+name: scanpy_env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - python-igraph
+  - leidenalg
+  - pip:
+      - scanpy
+      - squidpy
